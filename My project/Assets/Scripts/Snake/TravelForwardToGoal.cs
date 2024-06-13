@@ -8,12 +8,16 @@ public class TravelForwardToGoal : MonoBehaviour
     public float speed = 3;
     public float rotSpeed = 3;
     public float distanceThreshold = 2.7f;
+    public float snakeBodyCooldown = 1200f;
+    public float currentSnakeBodyCooldown;
 
     public GameObject petPrefab;
     [SerializeField] List<Transform> bodies = new List<Transform>();
 
     void Start()
     {
+        currentSnakeBodyCooldown = snakeBodyCooldown;
+
         bodies.Add(transform);
 
         // Add the head to the bodies list and ensure it has a Body component
@@ -28,6 +32,13 @@ public class TravelForwardToGoal : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Snake Body Spawn Cooldown: " + currentSnakeBodyCooldown);
+
+        if (currentSnakeBodyCooldown > 0)
+        {
+            currentSnakeBodyCooldown--;
+        }
+
         Vector3 lookAtGoal = new Vector3(goal.position.x,
                                          transform.position.y,
                                          goal.position.z);
@@ -47,10 +58,11 @@ public class TravelForwardToGoal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name.Contains("Player"))
+        if (other.gameObject.name.Contains("Player") && currentSnakeBodyCooldown <= 0)
         {
             Debug.Log("Spawned a body");
             AddBody();
+            currentSnakeBodyCooldown = snakeBodyCooldown;
         }
     }
 
