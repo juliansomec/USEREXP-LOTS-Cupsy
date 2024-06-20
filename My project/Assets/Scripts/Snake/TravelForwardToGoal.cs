@@ -58,7 +58,8 @@ public class TravelForwardToGoal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name.Contains("Player") && currentSnakeBodyCooldown <= 0)
+        Debug.Log("Spawn Cooldown: " + currentSnakeBodyCooldown);
+        if (other.gameObject.CompareTag("Player") && currentSnakeBodyCooldown <= 0)
         {
             Debug.Log("Spawned a body");
             AddBody();
