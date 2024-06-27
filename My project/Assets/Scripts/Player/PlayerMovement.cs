@@ -10,8 +10,13 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
 
     public float speed = 5f;
+    public float crouchSpeed = 2f;
     public float runSpeed = 15f;
 
+    public bool isCrouching;
+    public bool isRunning;
+
+    public HUDScript Hud;
  
     private void Awake()
     {
@@ -29,9 +34,42 @@ public class PlayerMovement : MonoBehaviour
         float right = inputManager.inputMaster.Movement.Right.ReadValue<float>();
         Vector3 move = transform.right * right + transform.forward * forward;
 
-        move *= inputManager.inputMaster.Movement.Run.ReadValue<float>() == 0 ? speed : runSpeed;
-        transform.localScale = new Vector3(1, inputManager.inputMaster.Movement.Crouch.ReadValue<float>() == 0 ? 1f : 0.4618f, 1);
+        // Check if the player is crouching
+        bool isCrouching = inputManager.inputMaster.Movement.Crouch.ReadValue<float>() != 0;
+
+        // Adjust the movement speed based on crouching state
+        if (isCrouching)
+        {
+            move *= crouchSpeed;
+        }
+        else
+        {
+            move *= inputManager.inputMaster.Movement.Run.ReadValue<float>() == 0 ? speed : runSpeed;
+        }
+
+        // Adjust the player's height based on crouching state
+        transform.localScale = new Vector3(1, isCrouching ? 0.4618f : 1f, 1);
 
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+    }
+
+    public bool IsCrouching()
+    {
+        return isCrouching;
+    }
+
+    public bool IsRunning()
+    {
+        return isRunning;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        
     }
 }
