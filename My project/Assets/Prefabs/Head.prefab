@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8470470172216745628}
   - component: {fileID: 8470470172216745629}
   - component: {fileID: 8470470172216745602}
-  - component: {fileID: 8140425616992870278}
+  - component: {fileID: 929457438471699993}
+  - component: {fileID: 3194964373707188473}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -106,7 +107,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8140425616992870278
+--- !u!114 &929457438471699993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,12 +116,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 8470470172216745600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d149c7792e00a245bed6bc0d9671a13, type: 3}
+  m_Script: {fileID: 11500000, guid: 814c752bd4291b747bfbb85c0856fb88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goal: {fileID: 8258418369289946561, guid: 28e73ddcb2dd80348acbeaee675d1b62, type: 3}
-  speed: 10
-  rotSpeed: 3
-  distanceThreshold: 2.7
   petPrefab: {fileID: 1704120555685206721, guid: c9fa4641761840f418cd132827d56425, type: 3}
   bodies: []
+  goalTransform: {fileID: 8258418369289946561, guid: 28e73ddcb2dd80348acbeaee675d1b62, type: 3}
+  originalGoalTransform: {fileID: 0}
+  newGoalTransform: {fileID: 0}
+--- !u!195 &3194964373707188473
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470470172216745600}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
