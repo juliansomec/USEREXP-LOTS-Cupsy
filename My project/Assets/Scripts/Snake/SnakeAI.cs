@@ -6,24 +6,28 @@ using UnityEngine.AI;
 
 public class SnakeAI : MonoBehaviour
 {
-    public float snakeBodyCooldown = 1200f;
-    public float currentSnakeBodyCooldown;
+    private float snakeBodyCooldown = 12f; // Cooldown in milliseconds
+    private float snakeRoamTime = 30f;
 
     public GameObject petPrefab;
 
     [SerializeField] List<Transform> bodies = new List<Transform>();
     [SerializeField] private Transform goalTransform;
+    [SerializeField] private Transform originalGoalTransform;
+    [SerializeField] private Transform newGoalTransform;
 
     private NavMeshAgent nav;
 
-    // Start is called before the first frame update
+    private bool isCooldownActive = false;
+    private bool isRoaming = false;
+
     private void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
-
-        currentSnakeBodyCooldown = snakeBodyCooldown;
-
         bodies.Add(transform);
+
+        // Save the original goal transform
+        originalGoalTransform = goalTransform;
 
         // Add the head to the bodies list and ensure it has a Body component
         if (bodies.Count > 1)
@@ -35,28 +39,53 @@ public class SnakeAI : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Debug.Log("Snake Body Spawn Cooldown: " + currentSnakeBodyCooldown);
-
-        if (currentSnakeBodyCooldown > 0)
-        {
-            currentSnakeBodyCooldown--;
-        }
-
         nav.destination = goalTransform.position;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Spawn Cooldown: " + currentSnakeBodyCooldown);
-        if (other.gameObject.CompareTag("Player") && currentSnakeBodyCooldown <= 0)
+        if (other.gameObject.CompareTag("Player") && !isCooldownActive)
         {
-            Debug.Log("Spawned a body");
-            AddBody();
-            currentSnakeBodyCooldown = snakeBodyCooldown;
+            isRoaming = true;
+            goalTransform = newGoalTransform; // Set goal to newGoalTransform
+            StartCoroutine(SnakeRoamTimer());
+            AddBody(); // Add body upon collision with player
+            StartCoroutine(CooldownTimer());
         }
+    }
+
+    private IEnumerator CooldownTimer()
+    {
+        isCooldownActive = true;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < snakeBodyCooldown)
+        {
+            yield return new WaitForSeconds(1f);
+            elapsedTime += 1f;
+            Debug.Log($"Cooldown time passed: {elapsedTime} seconds");
+        }
+
+        isCooldownActive = false;
+    }
+
+    private IEnumerator SnakeRoamTimer()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < snakeRoamTime)
+        {
+            yield return new WaitForSeconds(1f);
+            elapsedTime += 1f;
+            Debug.Log($"Snake Roaming: {elapsedTime} seconds");
+        }
+
+        // After snakeRoamTime seconds, switch back to originalGoalTransform
+        goalTransform = originalGoalTransform;
+        isRoaming = false;
     }
 
     public void AddBody()
@@ -72,7 +101,7 @@ public class SnakeAI : MonoBehaviour
         GameObject newBody = Instantiate(petPrefab, newBodyPosition, lastBody.rotation);
         Body newBodyScript = newBody.GetComponent<Body>();
 
-        //Checks if spawned body has Body script, if not, adds a script to it
+        // Checks if spawned body has Body script, if not, adds a script to it
         if (newBodyScript != null)
         {
             newBodyScript.target = lastBody;
