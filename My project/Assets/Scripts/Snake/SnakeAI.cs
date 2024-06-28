@@ -8,14 +8,16 @@ using UnityEngine.SceneManagement;
 public class SnakeAI : MonoBehaviour
 {
     private float snakeBodyCooldown = 12f; // Cooldown in milliseconds
-    private float snakeRoamTime = 30f;
+    public float snakeRoamTime = 30f;
 
     public GameObject petPrefab;
 
     [SerializeField] List<Transform> bodies = new List<Transform>();
     [SerializeField] private Transform goalTransform;
     [SerializeField] private Transform originalGoalTransform;
-    [SerializeField] private Transform newGoalTransform;
+    [SerializeField] private List<Transform> newGoalTransforms;
+    [SerializeField] private Transform playerRespawnTransform;
+    [SerializeField] private Transform lastGoalTransform; // Store the last goal transform
 
     private NavMeshAgent nav;
 
@@ -50,13 +52,41 @@ public class SnakeAI : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !isCooldownActive)
         {
             isRoaming = true;
-            goalTransform = newGoalTransform; // Set goal to newGoalTransform
+            goalTransform = GetRandomGoalTransform(); // Set goal to a random new goal transform
+            lastGoalTransform = goalTransform; // Update last goal transform
             StartCoroutine(SnakeRoamTimer());
             AddBody(); // Add body upon collision with player
             StartCoroutine(CooldownTimer());
-
-            SceneManager.LoadScene("GameOver");
+            other.transform.position = playerRespawnTransform.position;
         }
+        else if (other.gameObject.CompareTag("NewGoalTransform"))
+        {
+            goalTransform = GetRandomGoalTransform(); // Set goal to another random new goal transform
+            lastGoalTransform = goalTransform; // Update last goal transform
+        }
+    }
+
+    private Transform GetRandomGoalTransform()
+    {
+        if (newGoalTransforms.Count == 0)
+        {
+            return originalGoalTransform;
+        }
+        
+        //copies the newGoalTransforms list
+        List<Transform> availableGoalTransforms = new List<Transform>(newGoalTransforms);
+
+        // Remove the last goal transform from the list of available transforms
+        if (lastGoalTransform != null)
+        {
+            availableGoalTransforms.Remove(lastGoalTransform);
+        }
+
+        //randomizes transform goal to pick
+        int randomIndex = Random.Range(0, availableGoalTransforms.Count);
+
+        //returns the chosen randomized element from list
+        return availableGoalTransforms[randomIndex];
     }
 
     private IEnumerator CooldownTimer()
