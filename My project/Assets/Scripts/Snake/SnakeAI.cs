@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class SnakeAI : MonoBehaviour
 {
-    private float snakeBodyCooldown = 1f; // Cooldown in milliseconds
+    private float snakeBodyCooldown = 12f; // Cooldown in milliseconds
     public float snakeKills = 0f; //JUST FOR TESTING, PWEDENG TANGGALIN TO
     public float maxSnakeKills = 5f; //PWEDE RIN TO TANGGALIN
     public float snakeRoamTime = 30f;
@@ -21,9 +21,6 @@ public class SnakeAI : MonoBehaviour
     [SerializeField] private Transform playerRespawnTransform;
     [SerializeField] private Transform lastGoalTransform; // Store the last goal transform
 
-    [SerializeField] private SphereCollider playerHeat;
-    [SerializeField] private Transform playerTransform;
-
     private NavMeshAgent nav;
 
     private bool isCooldownActive = false;
@@ -35,8 +32,7 @@ public class SnakeAI : MonoBehaviour
         bodies.Add(transform);
 
         // Save the original goal transform
-        originalGoalTransform = GetRandomGoalTransform();
-        goalTransform = originalGoalTransform;
+        originalGoalTransform = goalTransform;
 
         // Add the head to the bodies list and ensure it has a Body component
         if (bodies.Count > 1)
@@ -50,16 +46,7 @@ public class SnakeAI : MonoBehaviour
 
     private void Update()
     {
-        //when roaming is true, go to one of roaming points
-        if (isRoaming == true)
-        {
-            nav.destination = goalTransform.position;
-        }
-        //when roaming is false, go to player
-        else if (isRoaming == false)
-        {
-            nav.destination = playerTransform.position;
-        }
+        nav.destination = goalTransform.position;
 
         if (snakeKills == maxSnakeKills)
         {
@@ -75,35 +62,15 @@ public class SnakeAI : MonoBehaviour
             isRoaming = true;
             goalTransform = GetRandomGoalTransform(); // Set goal to a random new goal transform
             lastGoalTransform = goalTransform; // Update last goal transform
-            /*StartCoroutine(SnakeRoamTimer());*/
+            StartCoroutine(SnakeRoamTimer());
             AddBody(); // Add body upon collision with player
             StartCoroutine(CooldownTimer());
             other.transform.position = playerRespawnTransform.position;
         }
-
         else if (other.gameObject.CompareTag("NewGoalTransform"))
         {
             goalTransform = GetRandomGoalTransform(); // Set goal to another random new goal transform
             lastGoalTransform = goalTransform; // Update last goal transform
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other == playerHeat && !isCooldownActive)
-        {
-            isRoaming = false;
-            Debug.Log("player detected");
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other == playerHeat && !isCooldownActive)
-        {
-            isRoaming = true;
-            Debug.Log("snake lost heat of player");
-            goalTransform = GetRandomGoalTransform();
         }
     }
 
@@ -113,7 +80,7 @@ public class SnakeAI : MonoBehaviour
         {
             return originalGoalTransform;
         }
-
+        
         //copies the newGoalTransforms list
         List<Transform> availableGoalTransforms = new List<Transform>(newGoalTransforms);
 
