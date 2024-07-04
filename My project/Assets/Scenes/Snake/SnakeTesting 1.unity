@@ -217,6 +217,11 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!135 &33708096 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 6397093879591370283, guid: 28e73ddcb2dd80348acbeaee675d1b62, type: 3}
+  m_PrefabInstance: {fileID: 855728705}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &36479038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2519,17 +2524,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
+      propertyPath: playerHeat
+      value: 
+      objectReference: {fileID: 33708096}
+    - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
       propertyPath: goalTransform
       value: 
-      objectReference: {fileID: 598927424}
+      objectReference: {fileID: 0}
     - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
       propertyPath: maxSnakeKills
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
       propertyPath: snakeRoamTime
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 598927424}
     - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
       propertyPath: newGoalTransform
       value: 
@@ -2541,7 +2554,7 @@ PrefabInstance:
     - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
       propertyPath: originalGoalTransform
       value: 
-      objectReference: {fileID: 598927424}
+      objectReference: {fileID: 0}
     - target: {fileID: 929457438471699993, guid: a666345f8f5815d44aa9de0b4f3e5ae1, type: 3}
       propertyPath: playerRespawnTransform
       value: 
