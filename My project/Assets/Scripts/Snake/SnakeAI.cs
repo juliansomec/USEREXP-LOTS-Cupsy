@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class SnakeAI : MonoBehaviour
 {
     private float snakeBodyCooldown = 1f; // Cooldown in milliseconds
-    public float snakeKills = 0f; //JUST FOR TESTING, PWEDENG TANGGALIN TO
+    public float snakeKills = 0f; //JUST FOR TESTING, PWEDENG TANGGALIN TO AH
     public float maxSnakeKills = 5f; //PWEDE RIN TO TANGGALIN
 
     public GameObject petPrefab;
