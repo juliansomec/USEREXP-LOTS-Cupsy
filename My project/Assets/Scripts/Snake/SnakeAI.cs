@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class SnakeAI : MonoBehaviour
 {
     private float snakeBodyCooldown = 12f; // Cooldown in milliseconds
+    public float snakeKills = 0f; //JUST FOR TESTING, PWEDENG TANGGALIN TO
+    public float maxSnakeKills = 5f; //PWEDE RIN TO TANGGALIN
     public float snakeRoamTime = 30f;
 
     public GameObject petPrefab;
@@ -45,12 +47,18 @@ public class SnakeAI : MonoBehaviour
     private void Update()
     {
         nav.destination = goalTransform.position;
+
+        if (snakeKills == maxSnakeKills)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && !isCooldownActive)
         {
+            snakeKills += 1f;
             isRoaming = true;
             goalTransform = GetRandomGoalTransform(); // Set goal to a random new goal transform
             lastGoalTransform = goalTransform; // Update last goal transform
