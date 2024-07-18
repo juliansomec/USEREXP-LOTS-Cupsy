@@ -52,22 +52,17 @@ public class PlayerHeat : MonoBehaviour
             if (isCrouching)
             {
                 targetHeatRange = crouchHeatRange;
-                Debug.Log($"Heat Range (Crouching): {heatRange.radius}");
             }
             else if (isRunning)
             {
                 targetHeatRange = runHeatRange;
-                Debug.Log($"Heat Range (Running): {heatRange.radius}");
             }
             else
             {
                 targetHeatRange = normalHeatRange;
-                Debug.Log($"Heat Range (Normal): {heatRange.radius}");
             }
         }
 
         heatRange.radius = Mathf.Lerp(heatRange.radius, targetHeatRange, 1 * Time.deltaTime);
-
-        Debug.Log($"Crouching: {isCrouching}, Running: {isRunning}");
     }
 }

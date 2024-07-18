@@ -1,20 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUDScript : MonoBehaviour
 {
     public GameObject HUD;
+    public Text compassPartsText;
+    int compassPartsCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        UpdateCompassPartsText();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void AddCompassParts()
+    {
+        compassPartsCount++;
+        UpdateCompassPartsText();
+    }
+
+    private void UpdateCompassPartsText()
+    {
+        compassPartsText.text = "x" + compassPartsCount;
     }
 
     public void OpenMessagePanel(string text)
