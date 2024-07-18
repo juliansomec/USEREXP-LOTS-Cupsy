@@ -29,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
         // Check if the player is crouching
         bool isCrouching = inputManager.inputMaster.Movement.Crouch.ReadValue<float>() != 0;
 
-        // Adjust the movement speed based on crouching state
         if (isCrouching)
         {
             move *= crouchSpeed;
