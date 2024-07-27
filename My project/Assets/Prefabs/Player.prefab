@@ -4157,7 +4157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80393932aaa5954796c3faaf0653459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 8909005694356136556}
+  inputManager: {fileID: 597988097982442393}
   mouseSens: 25
   body: {fileID: 8258418369289946561}
 --- !u!1 &5481054237182279312
@@ -5943,7 +5943,7 @@ GameObject:
   - component: {fileID: 3267000280056639846}
   - component: {fileID: 224601702087561787}
   - component: {fileID: 7399666111295267887}
-  - component: {fileID: 8909005694356136556}
+  - component: {fileID: 597988097982442393}
   - component: {fileID: 3628136646340192314}
   - component: {fileID: 3694718259542952954}
   m_Layer: 0
@@ -6045,7 +6045,7 @@ CapsuleCollider:
   m_Height: 1.9280665
   m_Direction: 1
   m_Center: {x: 0.03934765, y: 0.94141996, z: -0.07322168}
---- !u!114 &8909005694356136556
+--- !u!114 &597988097982442393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6069,7 +6069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78d74b7e55e90643a40c3f74be5e17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 8909005694356136556}
+  inputManager: {fileID: 597988097982442393}
   rb: {fileID: 224601702087561787}
   speed: 6
   crouchSpeed: 2

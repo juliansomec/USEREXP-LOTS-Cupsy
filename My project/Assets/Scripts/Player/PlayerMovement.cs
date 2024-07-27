@@ -17,27 +17,18 @@ public class PlayerMovement : MonoBehaviour
     public bool isRunning;
 
     public HUDScript Hud;
- 
-    private void Awake()
-    {
-        
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        
-    }
 
     private void Update()
     {
+        // Read input values
         float forward = inputManager.inputMaster.Movement.Forward.ReadValue<float>();
         float right = inputManager.inputMaster.Movement.Right.ReadValue<float>();
+
         Vector3 move = transform.right * right + transform.forward * forward;
 
         // Check if the player is crouching
         bool isCrouching = inputManager.inputMaster.Movement.Crouch.ReadValue<float>() != 0;
 
-        // Adjust the movement speed based on crouching state
         if (isCrouching)
         {
             move *= crouchSpeed;
@@ -61,15 +52,5 @@ public class PlayerMovement : MonoBehaviour
     public bool IsRunning()
     {
         return isRunning;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        
     }
 }

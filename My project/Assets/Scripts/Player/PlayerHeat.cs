@@ -15,6 +15,9 @@ public class PlayerHeat : MonoBehaviour
     private bool isCrouching = false;
     private bool isRunning = false;
 
+    [SerializeField] private bool isCooling = false;
+    float coolingDuration = 20f;
+
     private void Awake()
     {
         if (heatRange == null)
@@ -22,7 +25,6 @@ public class PlayerHeat : MonoBehaviour
             heatRange = GetComponent<SphereCollider>();
         }
 
-        // Ensure playerMovement reference is set
         if (playerMovement == null)
         {
             playerMovement = GetComponent<PlayerMovement>();
@@ -46,28 +48,41 @@ public class PlayerHeat : MonoBehaviour
         isCrouching = playerMovement.inputManager.inputMaster.Movement.Crouch.ReadValue<float>() != 0;
         // Check if the player is running
         isRunning = playerMovement.inputManager.inputMaster.Movement.Run.ReadValue<float>() != 0;
-
-        if (heatRange != null)
+        
+        if (isCooling)
+        {
+            targetHeatRange = crouchHeatRange;
+        }
+        else
         {
             if (isCrouching)
             {
                 targetHeatRange = crouchHeatRange;
-                Debug.Log($"Heat Range (Crouching): {heatRange.radius}");
             }
             else if (isRunning)
             {
                 targetHeatRange = runHeatRange;
-                Debug.Log($"Heat Range (Running): {heatRange.radius}");
             }
             else
             {
                 targetHeatRange = normalHeatRange;
-                Debug.Log($"Heat Range (Normal): {heatRange.radius}");
             }
         }
 
         heatRange.radius = Mathf.Lerp(heatRange.radius, targetHeatRange, 1 * Time.deltaTime);
 
-        Debug.Log($"Crouching: {isCrouching}, Running: {isRunning}");
+        Debug.Log(targetHeatRange);
+    }
+
+    public void ApplyCoolingEffect(float duration)
+    {
+        StartCoroutine(CoolingEffectCoroutine(duration));
+    }
+
+    IEnumerator CoolingEffectCoroutine(float duration)
+    {
+        isCooling = true;
+        yield return new WaitForSeconds(duration);
+        isCooling = false;
     }
 }

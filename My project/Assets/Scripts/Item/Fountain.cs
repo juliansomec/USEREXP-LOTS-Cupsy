@@ -4,23 +4,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+public class Fountain : MonoBehaviour
 {
     public HUDScript HUD;
     public Text HUDText;
+    [SerializeField] GameObject waterObject;
 
     private bool isPlayerNear = false;
+    [SerializeField] private PlayerHeat playerHeat;
 
     private void Start()
     {
         HUD.CloseMessagePanel();
-    }
+    } 
 
     private void Update()
     {
         if (isPlayerNear && Keyboard.current.fKey.wasPressedThisFrame) 
         {
-            PickUp();
+            Drink();
         }
     }
 
@@ -30,7 +32,7 @@ public class Item : MonoBehaviour
         {
             isPlayerNear = true;
             HUD.OpenMessagePanel("");
-            HUDText.text = "Press 'F' to Obtain";
+            HUDText.text = "Pres 'F' to Drink from Foutain";
         }
     }
 
@@ -39,10 +41,15 @@ public class Item : MonoBehaviour
         HUD.CloseMessagePanel();
     }
 
-    void PickUp()
+    void Drink()
     {
+        if (playerHeat != null)
+        {
+            playerHeat.ApplyCoolingEffect(20f);
+        }
+
         HUD.CloseMessagePanel();
         HUD.AddCompassParts();
-        Destroy(gameObject);
+        Destroy(waterObject);
     }
 }
