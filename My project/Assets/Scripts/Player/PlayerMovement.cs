@@ -9,9 +9,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody rb;
 
-    public float speed = 5f;
-    public float crouchSpeed = 2f;
-    public float runSpeed = 15f;
+    public float speed = 10f;
+    public float crouchSpeed = 5f;
+    public float runSpeed = 16f;
 
     public bool isCrouching;
     public bool isRunning;

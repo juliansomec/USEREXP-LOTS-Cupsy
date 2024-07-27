@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1459100620289256015}
   - component: {fileID: 4308449413981195733}
   - component: {fileID: 6908894268251778522}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 7718582184750106375}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0.67, z: 3.62}
-  m_LocalScale: {x: 0.28405, y: 0.28405, z: 0.28405}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.9603689, y: 2.9603689, z: 2.9603689}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,4 +119,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HUD: {fileID: 5172206475628347821, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
-  compassParts: {fileID: 0}
+  HUDText: {fileID: 0}
