@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7991727875668956927}
   - component: {fileID: 3436166897894448469}
   - component: {fileID: 2675471711756838701}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 7166055914230592028}
   - component: {fileID: 4403290438708132400}
   - component: {fileID: 9086970410047076220}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 7697952394066098925}
   - component: {fileID: 8450857434772616683}
   - component: {fileID: 194143305190882764}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fountain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6.8248, y: 6.8248, z: 6.8248}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3343566262500153087}
@@ -263,6 +263,7 @@ MonoBehaviour:
   HUD: {fileID: 0}
   HUDText: {fileID: 0}
   waterObject: {fileID: 1609953481173218299}
+  playerHeat: {fileID: 0}
 --- !u!65 &194143305190882764
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -296,7 +297,7 @@ GameObject:
   - component: {fileID: 1789899098312192734}
   - component: {fileID: 4112865766489753324}
   - component: {fileID: 250160727258155816}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
