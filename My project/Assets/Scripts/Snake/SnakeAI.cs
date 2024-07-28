@@ -14,14 +14,16 @@ public class SnakeAI : MonoBehaviour
     public GameObject petPrefab;
 
     [SerializeField] List<Transform> bodies = new List<Transform>();
-    [SerializeField] private Transform goalTransform;
+    [SerializeField] public Transform goalTransform;
     [SerializeField] private Transform originalGoalTransform;
     [SerializeField] private List<Transform> newGoalTransforms;
     [SerializeField] private Transform playerRespawnTransform;
-    [SerializeField] private Transform lastGoalTransform; // Store the last goal transform
+    [SerializeField] public Transform lastGoalTransform; // Store the last goal transform
 
     [SerializeField] private SphereCollider playerHeat;
     [SerializeField] private Transform playerTransform;
+
+    private SnakeLineOfSight snakeLineOfSight;
 
     private NavMeshAgent nav;
 
@@ -31,9 +33,9 @@ public class SnakeAI : MonoBehaviour
     private void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
+        snakeLineOfSight = GetComponent<SnakeLineOfSight>();
         bodies.Add(transform);
 
-        // Save the original goal transform
         goalTransform = GetRandomGoalTransform();
 
         // Add the head to the bodies list and ensure it has a Body component
@@ -48,18 +50,25 @@ public class SnakeAI : MonoBehaviour
 
     private void Update()
     {
-        if (isRoaming == true)
+        if (isRoaming == true && snakeLineOfSight.playerInSight == false)
         {
             nav.destination = goalTransform.position;
         }
-        else if (isRoaming == false)
+        else if (isRoaming == false || snakeLineOfSight.playerInSight == true)
         {
             nav.destination = playerTransform.position;
+            Debug.Log("Following Player");
         }
 
         if (snakeKills == maxSnakeKills)
         {
             SceneManager.LoadScene(0);
+        }
+
+        if (goalTransform == lastGoalTransform)
+        {
+            Debug.Log("The Error Happened so finding another goalTransform i guess.");
+            goalTransform = GetRandomGoalTransform();
         }
     }
 
@@ -79,8 +88,9 @@ public class SnakeAI : MonoBehaviour
 
         else if (other.gameObject.CompareTag("NewGoalTransform"))
         {
-            goalTransform = GetRandomGoalTransform(); // Set goal to another random new goal transform
             lastGoalTransform = goalTransform; // Update last goal transform
+            goalTransform = GetRandomGoalTransform(); // Set goal to another random new goal transform
+            Debug.Log(goalTransform);
         }
     }
 
@@ -103,26 +113,43 @@ public class SnakeAI : MonoBehaviour
         }
     }
 
-    private Transform GetRandomGoalTransform()
+    public Transform GetRandomGoalTransform()
     {
-        if (newGoalTransforms.Count == 0)
-        {
-            return originalGoalTransform;
-        }
+        Debug.Log("GetRandomGoalTransform called.");
 
-        //copies the newGoalTransforms list
+        // Create a list of available goal transforms
         List<Transform> availableGoalTransforms = new List<Transform>(newGoalTransforms);
 
-        // Remove the last goal transform from the list of available transforms
-        if (lastGoalTransform != null)
+        // Ensure the list is not empty before proceeding
+        if (availableGoalTransforms.Count == 0)
+        {
+            Debug.LogError("No goal transforms available.");
+            return null; // Or handle this case as needed
+        }
+
+        // Remove the last goal transform from the list if it's not null
+        if (lastGoalTransform != null && availableGoalTransforms.Contains(lastGoalTransform))
         {
             availableGoalTransforms.Remove(lastGoalTransform);
         }
 
-        //randomizes transform goal to pick
+        Debug.Log("Available Goal Transforms:");
+        foreach (Transform t in availableGoalTransforms)
+        {
+            Debug.Log(t.name); // Log the name of each transform for easy identification
+        }
+
+        // If the list becomes empty after removal, you may need to handle this case
+        if (availableGoalTransforms.Count == 0)
+        {
+            Debug.LogWarning("No available goal transforms left after removal.");
+            return null; // Or handle this case as needed
+        }
+
+        // Randomize the selection of a new goal transform
         int randomIndex = Random.Range(0, availableGoalTransforms.Count);
 
-        //returns the chosen randomized element from list
+        // Return the chosen transform
         return availableGoalTransforms[randomIndex];
     }
 

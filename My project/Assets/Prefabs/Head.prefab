@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8470470172216745602}
   - component: {fileID: 929457438471699993}
   - component: {fileID: 3194964373707188473}
+  - component: {fileID: 5757073745532674356}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -101,7 +102,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -119,14 +120,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814c752bd4291b747bfbb85c0856fb88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeRoamTime: 30
+  snakeKills: 0
+  maxSnakeKills: 5
   petPrefab: {fileID: 1704120555685206721, guid: c9fa4641761840f418cd132827d56425, type: 3}
   bodies: []
-  goalTransform: {fileID: 8258418369289946561, guid: 28e73ddcb2dd80348acbeaee675d1b62, type: 3}
+  goalTransform: {fileID: 0}
   originalGoalTransform: {fileID: 0}
   newGoalTransforms: []
   playerRespawnTransform: {fileID: 0}
   lastGoalTransform: {fileID: 0}
+  playerHeat: {fileID: 0}
+  playerTransform: {fileID: 0}
 --- !u!195 &3194964373707188473
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -149,3 +153,29 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5757073745532674356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470470172216745600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30d77da4ecceb40469830172747005bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 55
+  angle: 40
+  height: 2.5
+  meshColor: {r: 1, g: 0, b: 0, a: 1}
+  scanFrequency: 30
+  layers:
+    serializedVersion: 2
+    m_Bits: 64
+  occlusionLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  Objects: []
+  playerInSight: 0
+  yOffset: -1.51
