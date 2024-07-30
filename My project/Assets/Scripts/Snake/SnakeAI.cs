@@ -23,17 +23,20 @@ public class SnakeAI : MonoBehaviour
     [SerializeField] private SphereCollider playerHeat;
     [SerializeField] private Transform playerTransform;
 
+    public GameObject HUD;
+
     private SnakeLineOfSight snakeLineOfSight;
 
     private NavMeshAgent nav;
 
     private bool isCooldownActive = false;
-    private bool isRoaming = true;
+    public bool isRoaming = true;
 
     private void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
         snakeLineOfSight = GetComponent<SnakeLineOfSight>();
+        
         bodies.Add(transform);
 
         goalTransform = GetRandomGoalTransform();
@@ -70,6 +73,23 @@ public class SnakeAI : MonoBehaviour
             Debug.Log("The Error Happened so finding another goalTransform i guess.");
             goalTransform = GetRandomGoalTransform();
         }
+
+        if (SnakeOverdrive())
+        {
+            nav.destination = playerTransform.position;
+            Debug.Log("Snake Overdrive State Active");
+        }
+    }
+
+    bool SnakeOverdrive()
+    {
+        HUDScript hudScript = HUD.GetComponent<HUDScript>();
+
+        if (hudScript.GetCompassParts() >= 5)
+        {
+            return true;
+        }
+        else return false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -77,6 +97,7 @@ public class SnakeAI : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !isCooldownActive)
         {
             snakeKills += 1f;
+            nav.speed -= 0.5f; //everytime snake eats player, snake slows down
             isRoaming = true;
             goalTransform = GetRandomGoalTransform(); // Set goal to a random new goal transform
             lastGoalTransform = goalTransform; // Update last goal transform
