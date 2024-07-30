@@ -7,7 +7,7 @@ public class HUDScript : MonoBehaviour
 {
     public GameObject HUD;
     public Text compassPartsText;
-    int compassPartsCount = 0;
+    public int compassPartsCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,7 @@ public class HUDScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.LogWarning(compassPartsCount);
     }
 
     public void AddCompassParts()
@@ -40,5 +40,10 @@ public class HUDScript : MonoBehaviour
     public void CloseMessagePanel()
     {
         HUD.SetActive(false);
+    }
+
+    public int GetCompassParts()
+    {
+        return compassPartsCount;
     }
 }
