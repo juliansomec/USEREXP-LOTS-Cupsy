@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHeat : MonoBehaviour
 {
-    [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] FirstPersonController playerScript;
     public SphereCollider heatRange;
 
     [SerializeField] float normalHeatRange = 1.5f;
@@ -18,6 +18,15 @@ public class PlayerHeat : MonoBehaviour
     [SerializeField] private bool isCooling = false;
     float coolingDuration = 20f;
 
+    [SerializeField] private HUDScript hudScript;
+
+    private float currentOpacity;
+    private float targetOpacity;
+    private float opacityTransitionSpeed = 2f;
+
+    private Color originalColor;
+    private Color coolingColor = Color.blue;
+
     private void Awake()
     {
         if (heatRange == null)
@@ -25,30 +34,44 @@ public class PlayerHeat : MonoBehaviour
             heatRange = GetComponent<SphereCollider>();
         }
 
-        if (playerMovement == null)
+        if (playerScript == null)
         {
-            playerMovement = GetComponent<PlayerMovement>();
+            playerScript = GetComponent<FirstPersonController>();
         }
 
-        if (playerMovement == null)
+        if (playerScript == null)
         {
             Debug.LogWarning("PlayerMovement component not found!");
+        }
+
+        hudScript = FindObjectOfType<HUDScript>();
+        if (hudScript == null)
+        {
+            Debug.LogWarning("HUDScript component not found!");
+        }
+
+        currentOpacity = 0.5f;
+        targetOpacity = 0.5f;
+
+        if (hudScript != null && hudScript.heatImage != null)
+        {
+            originalColor = hudScript.heatImage.color;
         }
     }
 
     void Update()
     {
-        if (playerMovement == null)
+        if (playerScript == null)
         {
             Debug.LogWarning("Set Player Movement Script first!");
             return;
         }
 
         // Check if the player is crouching
-        isCrouching = playerMovement.inputManager.inputMaster.Movement.Crouch.ReadValue<float>() != 0;
+        isCrouching = playerScript.IsCrouched();
         // Check if the player is running
-        isRunning = playerMovement.inputManager.inputMaster.Movement.Run.ReadValue<float>() != 0;
-        
+        isRunning = playerScript.IsSprinting();
+
         if (isCooling)
         {
             targetHeatRange = crouchHeatRange;
@@ -58,20 +81,24 @@ public class PlayerHeat : MonoBehaviour
             if (isCrouching)
             {
                 targetHeatRange = crouchHeatRange;
+                targetOpacity = 0.3f;
             }
             else if (isRunning)
             {
                 targetHeatRange = runHeatRange;
+                targetOpacity = 1.0f;
             }
             else
             {
                 targetHeatRange = normalHeatRange;
+                targetOpacity = 0.6f;
             }
         }
 
         heatRange.radius = Mathf.Lerp(heatRange.radius, targetHeatRange, 1 * Time.deltaTime);
 
-        Debug.Log(targetHeatRange);
+        currentOpacity = Mathf.Lerp(currentOpacity, targetOpacity, opacityTransitionSpeed * Time.deltaTime);
+        hudScript.SetHeatImageOpacity(currentOpacity);
     }
 
     public void ApplyCoolingEffect(float duration)
@@ -82,7 +109,20 @@ public class PlayerHeat : MonoBehaviour
     IEnumerator CoolingEffectCoroutine(float duration)
     {
         isCooling = true;
-        yield return new WaitForSeconds(duration);
+        float elapsedTime = 0f;
+        Color initialColor = hudScript.heatImage.color;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+            hudScript.SetHeatImageColor(coolingColor); // Set color to blue
+            hudScript.SetHeatImageOpacity(alpha);
+            yield return null;
+        }
+
         isCooling = false;
+        hudScript.SetHeatImageColor(originalColor); // Revert to original color
+        hudScript.SetHeatImageOpacity(targetOpacity); // Ensure opacity matches the state (normal, running, crouching)
     }
 }
