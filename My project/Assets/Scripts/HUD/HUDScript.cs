@@ -9,22 +9,36 @@ public class HUDScript : MonoBehaviour
     public Text compassPartsText;
     public int compassPartsCount = 0;
 
+    //Parts
+    public RawImage[] Parts;
+    public RawImage cooldownIcon;
+    public RawImage heatImage;
+
     // Start is called before the first frame update
     void Start()
     {
         UpdateCompassPartsText();
+        for (int i = 0; i < Parts.Length; i++)
+        {
+            Parts[i].gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.LogWarning(compassPartsCount);
+
     }
 
     public void AddCompassParts()
     {
         compassPartsCount++;
         UpdateCompassPartsText();
+    }
+
+    public void SetCooldownOpacity(float alpha)
+    {
+        cooldownIcon.color = new Color(cooldownIcon.color.r, cooldownIcon.color.g, cooldownIcon.color.b, alpha);
     }
 
     private void UpdateCompassPartsText()
@@ -45,5 +59,23 @@ public class HUDScript : MonoBehaviour
     public int GetCompassParts()
     {
         return compassPartsCount;
+    }
+
+    public void SetHeatImageOpacity(float opacity)
+    {
+        if (heatImage != null)
+        {
+            Color color = heatImage.color;
+            color.a = opacity;
+            heatImage.color = color;
+        }
+    }
+
+    public void SetHeatImageColor(Color color)
+    {
+        if (heatImage != null)
+        {
+            heatImage.color = color;
+        }
     }
 }
