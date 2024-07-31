@@ -10,6 +10,8 @@ public class SnakeAI : MonoBehaviour
     private float snakeBodyCooldown = 1f; // Cooldown in milliseconds
     public float snakeKills = 0f; //JUST FOR TESTING, PWEDENG TANGGALIN TO AH
     public float maxSnakeKills = 5f; //PWEDE RIN TO TANGGALIN
+    private float snakeAggressionActiveTimer = 5f;
+    public float snakeBodyStartAmount = 4f;
 
     public GameObject petPrefab;
 
@@ -25,18 +27,28 @@ public class SnakeAI : MonoBehaviour
 
     public GameObject HUD;
 
+    private Collider headCollider;
+
     private SnakeLineOfSight snakeLineOfSight;
+
+    public Body body;
 
     private NavMeshAgent nav;
 
+    public bool snakeIsAggressive = false;
     private bool isCooldownActive = false;
     public bool isRoaming = true;
+    private bool isTouched = false; // Centralized isTouched state
+    private bool canIncreaseSpeed = true; // Flag to control speed increase
+
+    private bool ignoringCollision = false;
 
     private void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
         snakeLineOfSight = GetComponent<SnakeLineOfSight>();
-        
+        headCollider = GetComponent<Collider>();
+
         bodies.Add(transform);
 
         goalTransform = GetRandomGoalTransform();
@@ -48,6 +60,11 @@ public class SnakeAI : MonoBehaviour
             {
                 gameObject.AddComponent<Body>();
             }
+        }
+
+        for (int i = 0; i < snakeBodyStartAmount; i++) //bodies to add at the start of game
+        {
+            AddBody();
         }
     }
 
@@ -79,6 +96,34 @@ public class SnakeAI : MonoBehaviour
             nav.destination = playerTransform.position;
             Debug.Log("Snake Overdrive State Active");
         }
+
+        if (isTouched == true && canIncreaseSpeed)
+        {
+            snakeIsAggressive = true;
+
+            if (snakeIsAggressive == true)
+            {
+                nav.destination = playerTransform.position;
+                Debug.Log("Snake MAD");
+                StartCoroutine(SnakeAggressionTimer());
+                Debug.Log("Snake CALM");
+                isTouched = false; // Reset after handling the touch
+            }
+        }
+
+        if (ignoringCollision)
+        {
+            Collider headCollider = GetComponent<Collider>();
+            foreach (var body in bodies)
+            {
+                Collider bodyCollider = body.GetComponent<Collider>();
+                if (bodyCollider != null && headCollider != null)
+                {
+                    Physics.IgnoreCollision(headCollider, bodyCollider, true);
+                }
+            }
+            Debug.Log("Forcing ignore collision between head and all body parts.");
+        }
     }
 
     bool SnakeOverdrive()
@@ -99,6 +144,7 @@ public class SnakeAI : MonoBehaviour
             snakeKills += 1f;
             nav.speed -= 0.5f; //everytime snake eats player, snake slows down
             isRoaming = true;
+            snakeIsAggressive = false;
             goalTransform = GetRandomGoalTransform(); // Set goal to a random new goal transform
             lastGoalTransform = goalTransform; // Update last goal transform
             /*StartCoroutine(SnakeRoamTimer());*/
@@ -112,6 +158,11 @@ public class SnakeAI : MonoBehaviour
             lastGoalTransform = goalTransform; // Update last goal transform
             goalTransform = GetRandomGoalTransform(); // Set goal to another random new goal transform
             Debug.Log(goalTransform);
+        }
+
+        if (other.gameObject.CompareTag("Body"))
+        {
+            Debug.Log($"BRUH PLEASE LET ME THROUGH");
         }
     }
 
@@ -190,21 +241,27 @@ public class SnakeAI : MonoBehaviour
         isCooldownActive = false;
     }
 
-/*    private IEnumerator SnakeRoamTimer()
+    private IEnumerator SnakeAggressionTimer()
     {
+        isRoaming = false;
+        nav.speed += 2f;
+        snakeIsAggressive = true;
+        canIncreaseSpeed = false;
+
         float elapsedTime = 0f;
 
-        while (elapsedTime < snakeRoamTime)
+        while (elapsedTime < snakeAggressionActiveTimer)
         {
             yield return new WaitForSeconds(1f);
             elapsedTime += 1f;
-            Debug.Log($"Snake Roaming: {elapsedTime} seconds");
+            Debug.Log($"Snake Overdrive State: ({elapsedTime} seconds left)");
         }
 
-        // After snakeRoamTime seconds, switch back to originalGoalTransform
-        goalTransform = originalGoalTransform;
-        isRoaming = false;
-    }*/
+        isRoaming = true;
+        nav.speed -= 2f;
+        snakeIsAggressive = false;
+        canIncreaseSpeed = true;
+    }
 
     public void AddBody()
     {
@@ -223,9 +280,26 @@ public class SnakeAI : MonoBehaviour
         if (newBodyScript != null)
         {
             newBodyScript.target = lastBody;
+            newBodyScript.snakeAI = this; // Pass reference to SnakeAI
         }
 
         // Add the new body to the list
         bodies.Add(newBody.transform);
+
+        // Ignore collisions between snake head and this new body part
+        IgnoreHeadBodyCollision(newBody.GetComponent<Collider>());
+    }
+
+    private void IgnoreHeadBodyCollision(Collider bodyCollider)
+    {
+        Debug.Log($"Head Collider: {headCollider.name} ({headCollider.GetType()}), Body Collider: {bodyCollider.name} ({bodyCollider.GetType()})");
+        Physics.IgnoreCollision(headCollider, bodyCollider);
+
+        ignoringCollision = true;
+    }
+
+    public void NotifyPlayerTouch()
+    {
+        isTouched = true;
     }
 }

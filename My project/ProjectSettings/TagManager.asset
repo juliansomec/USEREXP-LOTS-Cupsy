@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NewGoalTransform
   - Snake
+  - Body
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - Player
   - Interactables
-  - 
-  - 
+  - snakeHead
+  - snakeBody
   - 
   - 
   - 
