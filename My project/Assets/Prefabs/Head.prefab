@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 929457438471699993}
   - component: {fileID: 3194964373707188473}
   - component: {fileID: 5757073745532674356}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 8470470172216745600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5294878, y: 2.6, z: -8}
-  m_LocalScale: {x: 1.9197778, y: 1.9197778, z: 1.9197778}
+  m_LocalPosition: {x: 2.5295, y: 2.6, z: -8}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -121,16 +121,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snakeKills: 0
-  maxSnakeKills: 5
+  maxSnakeKills: 20
+  snakeBodyStartAmount: 20
   petPrefab: {fileID: 1704120555685206721, guid: c9fa4641761840f418cd132827d56425, type: 3}
   bodies: []
   goalTransform: {fileID: 0}
   originalGoalTransform: {fileID: 0}
-  newGoalTransforms: []
+  newGoalTransforms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   playerRespawnTransform: {fileID: 0}
   lastGoalTransform: {fileID: 0}
   playerHeat: {fileID: 0}
   playerTransform: {fileID: 0}
+  HUD: {fileID: 0}
+  body: {fileID: -3537431282764752552, guid: c9fa4641761840f418cd132827d56425, type: 3}
+  snakeIsAggressive: 0
+  isRoaming: 1
 --- !u!195 &3194964373707188473
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -177,5 +187,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   Objects: []
-  playerInSight: 0
+  playerInSight: 1
   yOffset: -1.51
