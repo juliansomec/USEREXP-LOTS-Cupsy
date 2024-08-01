@@ -82,7 +82,7 @@ public class SnakeAI : MonoBehaviour
 
         if (snakeKills == maxSnakeKills)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
 
         if (goalTransform == lastGoalTransform)
@@ -142,7 +142,7 @@ public class SnakeAI : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !isCooldownActive)
         {
             snakeKills += 1f;
-            nav.speed -= 0.5f; //everytime snake eats player, snake slows down
+            nav.speed = Mathf.Max(nav.speed - 0.2f, 10f);
             isRoaming = true;
             snakeIsAggressive = false;
             goalTransform = GetRandomGoalTransform(); // Set goal to a random new goal transform

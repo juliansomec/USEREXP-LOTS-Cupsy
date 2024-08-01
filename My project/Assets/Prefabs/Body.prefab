@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petPrefab: {fileID: 1704120555685206721}
   target: {fileID: 0}
-  speed: 13
+  speed: 16
   rotSpeed: 5
   distanceThreshold: 2.7
   snakeAI: {fileID: 0}

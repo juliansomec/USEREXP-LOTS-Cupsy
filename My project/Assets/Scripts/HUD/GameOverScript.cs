@@ -10,7 +10,7 @@ public class GameOverScript : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
         
     }
