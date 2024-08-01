@@ -13713,7 +13713,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 777356034}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -18165,6 +18165,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -25.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4066853506223993853, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.8033
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066853506223993853, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.8033
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066853506223993853, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.8033
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066853506223993853, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066853506223993853, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 136
+      objectReference: {fileID: 0}
     - target: {fileID: 4653974327236318314, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 11.2
@@ -18268,6 +18288,10 @@ PrefabInstance:
     - target: {fileID: 8324335236847225397, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -26.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549886340269424428, guid: 11e597a37f7bf28498565d2ac091b34a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
