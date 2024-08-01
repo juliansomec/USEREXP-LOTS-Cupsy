@@ -344,7 +344,7 @@ MonoBehaviour:
   - {fileID: 7254252526184715975}
   - {fileID: 5795537861579522208}
   cooldownIcon: {fileID: 4824149489492608845}
-  heatImage: {fileID: 0}
+  heatImage: {fileID: 1835674467674421671}
 --- !u!1 &6192597559113464582
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,9 +897,9 @@ RectTransform:
   - {fileID: 3968551271639626742}
   m_Father: {fileID: 7293148821687979875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -36, y: 34}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 37, y: 36}
   m_SizeDelta: {x: 388, y: 218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7756062555628606289

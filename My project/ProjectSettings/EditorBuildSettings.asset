@@ -5,13 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameOverScene.unity
     guid: 593e49ebc21ef954c825b0ed6ea75221
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Snake/SnakeTesting 1.unity
     guid: 4f848525c91508848bfa3598e6cec716
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ForExport/SampleLevel.unity
     guid: a898c6dd098160645b514e8444fae125
+  - enabled: 1
+    path: Assets/Scenes/Final Scenes/Main Menu.unity
+    guid: 58bf1f1bf5bebf84d93a2700e348ef2b
+  - enabled: 1
+    path: Assets/Scenes/Final Scenes/Level1.unity
+    guid: 59fcb09165239be40b05df30b6acfc56
   m_configObjects: {}

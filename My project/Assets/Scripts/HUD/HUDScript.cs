@@ -6,44 +6,37 @@ using UnityEngine.UI;
 public class HUDScript : MonoBehaviour
 {
     public GameObject HUD;
-    public Text compassPartsText;
-    public int compassPartsCount = 0;
+    public int relicCount = 0;
 
     //Parts
     public RawImage[] Parts;
     public RawImage cooldownIcon;
     public RawImage heatImage;
 
+    public bool canWin = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        UpdateCompassPartsText();
         for (int i = 0; i < Parts.Length; i++)
         {
             Parts[i].gameObject.SetActive(false);
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    public void AddCompassParts()
-    {
-        compassPartsCount++;
-        UpdateCompassPartsText();
+        if (relicCount == 6)
+        {
+            canWin = true;
+        }
     }
 
     public void SetCooldownOpacity(float alpha)
     {
         cooldownIcon.color = new Color(cooldownIcon.color.r, cooldownIcon.color.g, cooldownIcon.color.b, alpha);
-    }
-
-    private void UpdateCompassPartsText()
-    {
-        compassPartsText.text = "x" + compassPartsCount;
     }
 
     public void OpenMessagePanel(string text)
@@ -56,9 +49,14 @@ public class HUDScript : MonoBehaviour
         HUD.SetActive(false);
     }
 
-    public int GetCompassParts()
+    public int GetCompassParts() //change to GetRelicCount later
     {
-        return compassPartsCount;
+        return relicCount;
+    }
+
+    public void AddRelicCount()
+    {
+        relicCount++;
     }
 
     public void SetHeatImageOpacity(float opacity)
@@ -77,5 +75,10 @@ public class HUDScript : MonoBehaviour
         {
             heatImage.color = color;
         }
+    }
+
+    public void ObtainPart(int part)
+    {
+        Parts[part].gameObject.SetActive(true);
     }
 }

@@ -8,7 +8,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.LowLevel;
 
 #if UNITY_EDITOR
     using UnityEditor;
@@ -132,8 +131,6 @@ public class FirstPersonController : MonoBehaviour
 
     #endregion
 
-    [SerializeField] Animator playerAnim;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -150,8 +147,6 @@ public class FirstPersonController : MonoBehaviour
             sprintRemaining = sprintDuration;
             sprintCooldownReset = sprintCooldown;
         }
-
-        playerAnim = GetComponent<Animator>();
     }
 
     void Start()
@@ -159,6 +154,12 @@ public class FirstPersonController : MonoBehaviour
         if(lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if(crosshair)
+        {
+            crosshairObject.sprite = crosshairImage;
+            crosshairObject.color = crosshairColor;
         }
 
         #region Sprint Bar
@@ -360,7 +361,6 @@ public class FirstPersonController : MonoBehaviour
 
         if (playerCanMove)
         {
-            playerAnim.SetBool("Running", true);
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
@@ -513,16 +513,18 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    public bool IsCrouched()
-    {
-        return isCrouched;
-    }
-
     public bool IsSprinting()
     {
         return isSprinting;
     }
+
+    public bool IsCrouched()
+    {
+        return isCrouched;
+    }
 }
+
+
 
 // Custom Editor
 #if UNITY_EDITOR
@@ -723,7 +725,7 @@ public class FirstPersonController : MonoBehaviour
         #endregion
 
         //Sets any changes from the prefab
-        if (GUI.changed)
+        if(GUI.changed)
         {
             EditorUtility.SetDirty(fpc);
             Undo.RecordObject(fpc, "FPC Change");

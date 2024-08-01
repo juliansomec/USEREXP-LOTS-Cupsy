@@ -20,7 +20,7 @@ public class Fountain : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNear && Keyboard.current.fKey.wasPressedThisFrame) 
+        if (isPlayerNear && Keyboard.current.fKey.wasPressedThisFrame && waterObject != null) 
         {
             Drink();
         }
@@ -28,7 +28,7 @@ public class Fountain : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (collision != null && waterObject != null)
         {
             isPlayerNear = true;
             HUD.OpenMessagePanel("");
@@ -49,7 +49,6 @@ public class Fountain : MonoBehaviour
         }
 
         HUD.CloseMessagePanel();
-        HUD.AddCompassParts();
         Destroy(waterObject);
     }
 }

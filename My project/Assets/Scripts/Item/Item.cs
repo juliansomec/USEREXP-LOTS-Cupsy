@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public HUDScript HUD;
+    public GameObject relicItem;
     public Text HUDText;
 
     private bool isPlayerNear = false;
@@ -18,7 +19,7 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNear && Keyboard.current.fKey.wasPressedThisFrame) 
+        if (isPlayerNear && Keyboard.current.fKey.wasPressedThisFrame && relicItem != null) 
         {
             PickUp();
         }
@@ -26,7 +27,7 @@ public class Item : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (collision != null && relicItem != null)
         {
             isPlayerNear = true;
             HUD.OpenMessagePanel("");
@@ -42,7 +43,9 @@ public class Item : MonoBehaviour
     void PickUp()
     {
         HUD.CloseMessagePanel();
-        HUD.AddCompassParts();
-        Destroy(gameObject);
+        Destroy(relicItem);
+
+        HUD.ObtainPart(HUD.GetCompassParts()); //change to GetRelicCount later
+        HUD.AddRelicCount();
     }
 }
